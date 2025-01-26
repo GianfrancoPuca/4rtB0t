@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ArtBot - Il tuo assistente sulle mostre d'arte</title>
+
+  <!-- CSS principale -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <!-- Font e icone -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Include l'intera famiglia Material Symbols Outlined -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+  <!-- Font Montserrat -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+  <div class="chatbox">
+    <!-- Barra in alto -->
+    <div class="header">
+      <h4>ArtBot: assistente per le mostre d'arte</h4>
+      <!-- Pulsante Dark Mode -->
+      <button class="dark-mode-toggle" id="toggleDarkMode">
+        <span class="material-symbols-outlined">dark_mode</span>
+      </button>
+    </div>
+    
+    <!-- Area conversazione -->
+    <div class="chatlogs" id="chatlogs">
+      <!-- Messaggio iniziale del bot -->
+      <div class="chat robot">
+        <div class="robot-photo"></div>
+        <p class="chat-message">
+          Ciao, sono ArtBot! Chiedimi tutto sulle mostre d'arte e ti fornirò informazioni utili.
+        </p>
+      </div>
+    </div>
+
+    <!-- Box input + bottone di invio -->
+    <div class="chat-form">
+      <input type="text" id="chat-input" placeholder="Scrivi qui la tua domanda...">
+      <button id="send">
+        <span class="material-symbols-outlined">prompt_suggestion</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Showdown per Markdown -->
+  <script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+  <!-- Script principale -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

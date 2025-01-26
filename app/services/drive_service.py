@@ -2,26 +2,26 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 from google.oauth2.service_account import Credentials
 import os
+import logging
+from PyPDF2 import PdfReader
+
 
 FOLDER_ID = "1MGhZL4PJ5uDcjayMBbbfKBkln5XX5zkl"
 RAW_DATA_PATH = "data/raw/"
+PROCESSED_DATA_PATH = "data/processed/"
 
-def fetch_documents():
-    credentials = Credentials.from_service_account_file("config/secrets.json")
-    service = build("drive", "v3", credentials=credentials)
-    query = f"'{FOLDER_ID}' in parents and mimeType='application/pdf'"
+logging.basicConfig(level=logging.DEBUG)
 
-    results = service.files().list(q=query).execute()
-    files = results.get("files", [])
+def preprocess_documents(raw_data_path):
+    logging.info("Avvio del preprocessing dei documenti...")
+    os.makedirs(PROCESSED_DATA_PATH, exist_ok=True)
+    for filename in os.listdir(raw_data_path):
+        if filename.endswith(".pdf"):
+            logging.info(f"Elaborando: {filename}")
+            reader = PdfReader(os.path.join(raw_data_path, filename))
+            text = " ".join([page.extract_text() for page in reader.pages])
+            output_file = os.path.join(PROCESSED_DATA_PATH, filename + ".txt")
+            with open(output_file, "w") as f:
+                f.write(text)
+            logging.info(f"Salvato il testo preprocessato in: {output_file}")
 
-    os.makedirs(RAW_DATA_PATH, exist_ok=True)
-
-    for file in files:
-        request = service.files().get_media(fileId=file["id"])
-        filepath = os.path.join(RAW_DATA_PATH, file["name"])
-        with open(filepath, "wb") as f:
-            downloader = MediaIoBaseDownload(f, request)
-            done = False
-            while not done:
-                _, done = downloader.next_chunk()
-    return files

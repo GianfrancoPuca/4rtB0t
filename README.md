@@ -1,120 +1,99 @@
-# Artbot
+# ArtBot
 
-Questo progetto è un chatbot avanzato progettato per rispondere a domande su come enfatizzare e sviluppare aspetti delle mostre d'arte. Il chatbot utilizza modelli linguistici open source, tra cui Mistral, e una documentazione caricata su Google Drive come base di conoscenza.
-
-## Scopo del Progetto
-L'obiettivo principale di questo progetto è facilitare l'accesso alle informazioni relative alla gestione, alla progettazione e allo sviluppo di mostre d'arte. Attraverso un'interfaccia semplice e intuitiva, gli utenti possono ottenere risposte dettagliate basate sulla documentazione fornita.
-
-## Funzionalità
-- **Risposte basate su documentazione**: il chatbot analizza e fornisce risposte basate sui documenti caricati su Google Drive.
-- **Riconoscimento di contesto**: utilizza embedding semantici per individuare i contenuti più pertinenti.
-- **Generazione di linguaggio naturale**: risposte fluide e contestualizzate generate da Mistral.
-
-## Tecnologie Utilizzate
-- **Linguaggi e framework**: Python, Flask
-- **Modelli di machine learning**:
-  - Mistral per la generazione di risposte.
-  - SentenceTransformers per il calcolo degli embedding.
-- **Integrazione con servizi esterni**:
-  - API di Google Drive per il caricamento e l'accesso ai documenti.
-  - Hugging Face per l'accesso ai modelli pre-addestrati.
-- **Elaborazione dei documenti**: pdfplumber per estrarre il testo dai PDF.
-
-## Requisiti Tecnici
-- Python 3.8 o superiore
-- Dipendenze elencate in `requirements.txt`
-- Account Google con accesso ai file richiesti
-- Token Hugging Face per accedere ai modelli
-
-## Istruzioni per l'Installazione
-
-### Passaggi per la configurazione locale
-1. **Clonare il repository**:
-   ```bash
-   git clone https://github.com/username/repository-name.git
-   cd repository-name
-   ```
-
-2. **Creare un ambiente virtuale**:
-   ```bash
-   python3 -m venv env
-   source env/bin/activate  # Su Windows: env\Scripts\activate
-   ```
-
-3. **Installare le dipendenze**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Configurare le credenziali di Google Drive**:
-   - Posizionare il file `secrets.json` nella directory `config/`.
-
-5. **Impostare variabili d'ambiente**:
-   - Creare un file `.env` con il seguente contenuto:
-     ```env
-     huggingface_token=<IL_TUO_TOKEN>
-     ```
-
-6. **Avviare l'applicazione**:
-   ```bash
-   python main.py
-   ```
-
-## Utilizzo del Chatbot
-
-### Esempio di Sessione
-```plaintext
-Utente: Come posso migliorare l'illuminazione per una mostra?
-Chatbot: L'illuminazione dovrebbe essere regolata in base al tipo di opere esposte. Ad esempio, le opere su tela richiedono luce diffusa per evitare riflessi.
-```
-
-## Struttura delle Cartelle
-```plaintext
-repository-name/
-├── config/
-│   └── secrets.json          # Credenziali per l'accesso a Google Drive
-├── data/
-│   ├── raw/                  # Documenti grezzi scaricati
-│   ├── processed/            # Documenti preprocessati
-│   └── embeddings/           # Embedding generati
-├── logs/                     # File di log per monitorare il preprocessing
-├── app/
-│   ├── routes.py             # Gestione delle route Flask
-│   └── templates/            # Template HTML (se applicabile)
-├── main.py                   # Entrypoint principale dell'applicazione
-├── preprocessing.py          # Script per preprocessare i documenti
-├── mistral_service.py        # Integrazione con il modello Mistral
-├── embedding_service.py      # Gestione degli embedding
-├── drive_service.py          # Integrazione con Google Drive
-├── requirements.txt          # Dipendenze del progetto
-└── README.md                 # Documentazione del progetto
-```
-
-## Contributi
-
-Siamo aperti ai contributi! Segui questi passaggi per proporre miglioramenti:
-1. Fai un fork del repository.
-2. Crea un branch per la tua feature o correzione:
-   ```bash
-   git checkout -b feature-nome-feature
-   ```
-3. Effettua le modifiche e scrivi commit descrittivi.
-4. Invia una pull request.
-
-## Limiti Noti
-- Il chatbot richiede una connessione a Internet per accedere alle API di Google Drive e Hugging Face.
-- Le risposte dipendono dalla qualità e dalla pertinenza della documentazione caricata.
-
-## Estensioni Future
-- Supporto per altre lingue oltre all'italiano.
-- Integrazione con più sorgenti di documentazione, come database SQL.
-- Implementazione di un'interfaccia web più avanzata.
-
-## Riferimenti
-- [API di Google Drive](https://developers.google.com/drive)
-- [Mistral LLM](https://mistral.ai)
-- [SentenceTransformers](https://www.sbert.net)
+ArtBot è un chatbot progettato per rispondere a domande riguardo l’organizzazione, la progettazione e la valorizzazione di **mostre d’arte**. Sfrutta modelli di **machine learning** open source e una base di conoscenza caricata da documenti PDF per fornire risposte contestuali e mirate.
 
 ---
-Sentiti libero di contattarmi per eventuali domande o suggerimenti! 😊
 
+## Scopo del Progetto
+- **Facilitare l’accesso alle informazioni** riguardanti mostre d’arte (allestimenti, illuminazione, comunicazione, budget, ecc.).
+- **Fornire un’interfaccia semplice e intuitiva** per ottenere risposte rapide su temi artistici e museali.
+
+---
+
+## Funzionalità
+1. **Analisi dei documenti**: indicizzazione di PDF (o altre fonti) con strumenti di Embedding (es. SentenceTransformers) e un indice FAISS (o simile) per recuperare i contenuti più pertinenti.  
+2. **Generazione di testo naturale**: ArtBot si appoggia a modelli LLM (es. Mistral, Hugging Face) per restituire risposte fluenti.  
+3. **Interfaccia web**: include un frontend minimal in Flask + JS, con supporto alla Dark Mode e un design “mobile-friendly”.  
+4. **Feedback opzionale**: possibilità di fornire feedback (👍/👎) sulle risposte per una valutazione futura.
+
+---
+
+## Struttura del Progetto
+
+```plaintext
+artbot/
+├── app/
+│   ├── __init__.py
+│   ├── routes.py
+│   ├── services/
+│   │   ├── llm_service.py
+│   │   └── ...
+│   ├── templates/
+│   │   └── index.html          # Pagina HTML principale del chatbot
+│   └── static/
+│       ├── style.css           # Stili CSS (light/dark)
+│       ├── script.js           # Logica frontend (fetch, dark mode, UI)
+│       └── imgs/               # Eventuali immagini o icone
+├── data/
+│   ├── raw/                    # Documenti PDF originali
+│   └── processed/              # Documenti .txt preprocessati
+├── config/                     # (Opzionale) Credenziali .json per Google Drive, file .env
+├── run.py                      # Avvio dell’app Flask (create_app e app.run)
+├── requirements.txt            # Dipendenze
+├── .gitignore                  # Voci da ignorare (venv310, .env, ecc.)
+└── README.md                   # Documentazione del progetto
+
+#Requisiti Tecnici
+
+Python 3.10 (consigliato, visti i requisiti di PyTorch e librerie correlate)
+
+#Connettività a Internet (se utilizzi modelli e servizi esterni: Hugging Face, Google Drive)
+
+Librerie installate da requirements.txt
+
+#Installazione e Avvio
+
+Clona il repository:
+bash
+
+git clone https://github.com/username/artbot.git
+
+cd artbot
+
+Crea un ambiente virtuale (es. venv310):
+bash
+
+python3.10 -m venv venv310
+
+source venv310/bin/activate  # (Su Windows: venv310\Scripts\activate)
+
+#Installa le dipendenze:
+bash
+
+pip install --upgrade pip
+
+pip install -r requirements.txt
+
+#(Facoltativo) Configura Google Drive:
+
+Se serve scaricare PDF da Drive, inserisci le tue credenziali (client_secrets.json) in config/.
+
+Imposta eventuali variabili d’ambiente (es. ID di cartelle Drive, token, ecc.).
+
+Avvia l’applicazione:
+bash
+
+python run.py
+
+Il server girerà di default su http://127.0.0.1:5000/
+
+#Utilizzo
+
+
+Interfaccia Web: Apri http://127.0.0.1:5000/ nel tuo browser per accedere al chatbot.
+
+Modalità Dark: Clicca sull’icona “dark_mode” nella barra superiore per passare dalla modalità chiara a quella scura.
+
+Conversazione: Digita la tua domanda o richiesta nel box di input e premi “Invio” o l’icona di suggerimento.
+
+Feedback (opzionale): Se implementato, appariranno emoji 👍/👎 per valutare la pertinenza della risposta.

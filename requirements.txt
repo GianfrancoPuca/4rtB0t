@@ -2,5 +2,9 @@ flask
 google-api-python-client
 google-auth
 google-auth-oauthlib
-llama-cpp-python
 pytest
+langchain
+faiss-cpu
+pypdf
+python-dotenv
+ollama

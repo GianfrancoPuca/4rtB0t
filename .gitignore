@@ -3,3 +3,5 @@ data/raw/
 data/processed/
 *.pyc
 __pycache__/
+venv310/
+venv/
